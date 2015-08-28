@@ -3,7 +3,7 @@
  *
  * @author Tom Kopp
  * @license MIT
- * @version 1.0.0
+ * @version 1.0.1
  */
 ;(function ($) {
 
@@ -18,8 +18,9 @@
       byGroup: true
       , group: 'all'
       , state: 'off'
+      , triggerClass: 'toggleNator'
       , target: null
-      , class: 'toggleNator'
+      , targetClass: 'toggleNatorTarget'
     }
     , init: function () {
       this.config = $.extend({}, this.defaults, this.options)
@@ -64,13 +65,19 @@
       })
     }
     , _applyOne: function (k, elem) {
-      // toggle target's class based on element's state
+      // toggle targetClass based on element's state
       var $elem = $(elem)
 
       if ($elem.data('state') === 'on' && $elem.data('state') !== 'off') {
-        $elem.removeClass('toggle-off').addClass('toggle-on').data('targetElem').addClass($elem.data('class'))
+        $elem.addClass($elem.data('triggerClass'))
+        if ($elem.data('targetElem') != null) {
+          $elem.data('targetElem').addClass($elem.data('targetClass'))
+        }
       } else {
-        $elem.removeClass('toggle-on').addClass('toggle-off').data('targetElem').removeClass($elem.data('class'))
+        $elem.removeClass($elem.data('triggerClass'))
+        if ($elem.data('targetElem') != null) {
+          $elem.data('targetElem').data('targetElem').removeClass($elem.data('targetClass'))
+        }
       }
     }
     , _prepareElements: function () {
