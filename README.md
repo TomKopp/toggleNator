@@ -11,12 +11,12 @@ This module requires jQuery. Any reasonably modern version should be ok.
 
 Options can be set globally on instantiation and can be overwritten by the data attribute of the element
 
-Options:| | |
-byGroup:    |true            |determines if the other elements in the group should also be toggled
-group:      |'all'           |the group that the element belongs to
-state:      |'off'           |the initial state of the element on site load
-target:     |null            |this is the target selector, should match at least an data-toggleNator-target attribute on your site
-class:      |'toggleNator'   |this is the class that will be toggled on the target
+|Options:| | | |
+|byGroup:    |true            |determines if the other elements in the group should also be toggled|
+|group:      |'all'           |the group that the element belongs to|
+|state:      |'off'           |the initial state of the element on site load|
+|target:     |null            |this is the target selector, should match at least an data-toggleNator-target attribute on your site|
+|class:      |'toggleNator'   |this is the class that will be toggled on the target|
 
 ## Example
 
