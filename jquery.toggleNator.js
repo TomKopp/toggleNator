@@ -3,7 +3,7 @@
  *
  * @author Tom Kopp
  * @license MIT
- * @version 1.0.1
+ * @version 1.1.1
  */
 ;(function ($) {
 
@@ -89,10 +89,10 @@
           , targetElem
 
         // merge general options with element's options
-        that.data($.extend({}, options, that.data('toggle')))
+        that.data($.extend({}, options, that.data('toggleNator')))
         // get target object and save it in the element for later use
         if (that.data('target')) {
-          that.data('targetElem', $('[data-toggleNator-target="'+ that.data('target') +'"]'))
+          that.data('targetElem', $('[data-toggleNatorTarget="'+ that.data('target') +'"]'))
         }
 
         if (that.data('byGroup')) {
