@@ -16,8 +16,9 @@ Options:| | |
 byGroup:    |true            |determines if the other elements in the group should also be toggled
 group:      |'all'           |the group that the element belongs to
 state:      |'off'           |the initial state of the element on site load
+triggerClass:|'toggleNator'  |this is the class that will be toggled on the trigger element
 target:     |null            |this is the target selector, should match at least an data-toggleNator-target attribute on your site
-class:      |'toggleNator'   |this is the class that will be toggled on the target
+targetClass:      |'toggleNatorTarget'   |this is the class that will be toggled on the target
 
 ## Example
 
@@ -29,8 +30,8 @@ The classes in this example will be set by toggleNator
     <li></li>
 </ul>
 
-<h2 data-toggle="{&quot;target&quot;:&quot;product-category-box-2&quot;,&quot;group&quot;:&quot;product-category&quot;,&quot;state&quot;:&quot;on&quot;}" class="toggle-on">Trigger 2</h2>
-<ul data-toggle-target="product-category-box-2" class="toggleNator">
+<h2 data-toggle="{&quot;target&quot;:&quot;product-category-box-2&quot;,&quot;group&quot;:&quot;product-category&quot;,&quot;state&quot;:&quot;on&quot;}" class="toggleNator">Trigger 2</h2>
+<ul data-toggle-target="product-category-box-2" class="toggleNatorTarget">
     <li></li>
 </ul>
 ```
@@ -57,8 +58,8 @@ In PHP you could write the example like this:
         'state': 'on'
     ];
 ?>
-<h2 data-toggle="<php echo htmlspecialchars(json_encode($toggle_options_2), ENT_QUOTES); ?>" class="toggle-on">Trigger 2</h2>
-<ul data-toggle-target="product-category-box-2" class="toggleNator">
+<h2 data-toggle="<php echo htmlspecialchars(json_encode($toggle_options_2), ENT_QUOTES); ?>" class="toggleNator">Trigger 2</h2>
+<ul data-toggle-target="product-category-box-2" class="toggleNatorTarget">
     <li></li>
 </ul>
 ```
