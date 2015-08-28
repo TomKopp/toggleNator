@@ -17,7 +17,7 @@ byGroup:    |true            |determines if the other elements in the group shou
 group:      |'all'           |the group that the element belongs to
 state:      |'off'           |the initial state of the element on site load
 triggerClass:|'toggleNator'  |this is the class that will be toggled on the trigger element
-target:     |null            |this is the target selector, should match at least an data-toggleNator-target attribute on your site
+target:     |null            |this is the target selector, should match at least one data-toggleNator-target attribute on your site
 targetClass:      |'toggleNatorTarget'   |this is the class that will be toggled on the target
 
 ## Example
