@@ -1,4 +1,4 @@
-# Witzboulds-toggleNator
+# Witzbould's toggleNator
 
 Witzboulds toggleNator is a js module that toggles css classes.
 
