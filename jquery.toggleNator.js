@@ -3,7 +3,7 @@
  *
  * @author Tom Kopp
  * @license MIT
- * @version 1.1.1
+ * @version 1.1.2
  */
 ;(function ($) {
 
@@ -70,13 +70,13 @@
 
       if ($elem.data('state') === 'on' && $elem.data('state') !== 'off') {
         $elem.addClass($elem.data('triggerClass'))
-        if ($elem.data('targetElem') != null) {
+        if ($elem.data('targetElem').length) {
           $elem.data('targetElem').addClass($elem.data('targetClass'))
         }
       } else {
         $elem.removeClass($elem.data('triggerClass'))
-        if ($elem.data('targetElem') != null) {
-          $elem.data('targetElem').data('targetElem').removeClass($elem.data('targetClass'))
+        if ($elem.data('targetElem').length) {
+          $elem.data('targetElem').removeClass($elem.data('targetClass'))
         }
       }
     }
