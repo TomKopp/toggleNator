@@ -1,6 +1,6 @@
 # Witzbould's toggleNator
 
-Witzboulds toggleNator is a js module that toggles css classes.
+Witzbould's toggleNator is a js module that toggles css classes.
 
 That happens via html data attributes.
 Toggle buttons can be separated into groups. So for example you can have multiple accordion menus on your side and they will not influence one another.
@@ -9,10 +9,12 @@ This module requires jQuery. Any reasonably modern version should be ok.
 
 ## Options
 
+The options are an JSON string in the data attribute of an arbitrary html element.
+You have to escape any html special characters of course.
 Options can be set globally on instantiation and can be overwritten by the data attribute of the element
 
 Options:| | |
---- | --- | ---
+:--- | --- | ---
 byGroup:    |true            |determines if the other elements in the group should also be toggled
 group:      |'all'           |the group that the element belongs to
 state:      |'off'           |the initial state of the element on site load
