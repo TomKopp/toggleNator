@@ -70,12 +70,12 @@
 
       if ($elem.data('state') === 'on' && $elem.data('state') !== 'off') {
         $elem.addClass($elem.data('triggerClass'))
-        if ($elem.data('targetElem').length) {
+        if ($elem.data('targetElem') != null) {
           $elem.data('targetElem').addClass($elem.data('targetClass'))
         }
       } else {
         $elem.removeClass($elem.data('triggerClass'))
-        if ($elem.data('targetElem').length) {
+        if ($elem.data('targetElem') != null) {
           $elem.data('targetElem').removeClass($elem.data('targetClass'))
         }
       }
