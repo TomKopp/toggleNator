@@ -89,7 +89,7 @@
           , targetElem
 
         // merge general options with element's options
-        that.data($.extend({}, options, that.data('toggleNator')))
+        that.data($.extend({}, options, that.data('togglenator')))
         // get target object and save it in the element for later use
         if (that.data('target')) {
           that.data('targetElem', $('[data-toggleNatorTarget="'+ that.data('target') +'"]'))
