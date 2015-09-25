@@ -42,23 +42,23 @@ In PHP you could write the example like this:
 ```php
 <?php
     $toggle_options_1 = [
-        'target': 'product-category-box-1',
-        'group': 'product-category'
+        'target' => 'product-category-box-1',
+        'group' => 'product-category'
     ];
 ?>
-<h2 data-toggleNator="<php echo htmlspecialchars(json_encode($toggle_options_1), ENT_QUOTES); ?>">Trigger</h2>
+<h2 data-toggleNator="<?php echo htmlspecialchars(json_encode($toggle_options_1), ENT_QUOTES); ?>">Trigger</h2>
 <ul data-toggleNatorTarget="product-category-box-1">
     <li></li>
 </ul>
 
 <?php
     $toggle_options_2 = [
-        'target': 'product-category-box-2',
-        'group': 'product-category',
-        'state': 'on'
+        'target' => 'product-category-box-2',
+        'group' => 'product-category',
+        'state' => 'on'
     ];
 ?>
-<h2 data-toggleNator="<php echo htmlspecialchars(json_encode($toggle_options_2), ENT_QUOTES); ?>" class="toggleNator">Trigger 2</h2>
+<h2 data-toggleNator="<?php echo htmlspecialchars(json_encode($toggle_options_2), ENT_QUOTES); ?>" class="toggleNator">Trigger 2</h2>
 <ul data-toggleNatorTarget="product-category-box-2" class="toggleNatorTarget">
     <li></li>
 </ul>
