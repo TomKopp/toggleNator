@@ -3,7 +3,7 @@
  *
  * @author Tom Kopp
  * @license MIT
- * @version 1.1.1
+ * @version 1.1.2
  */
 ;(function ($) {
 
@@ -76,7 +76,7 @@
       } else {
         $elem.removeClass($elem.data('triggerClass'))
         if ($elem.data('targetElem') != null) {
-          $elem.data('targetElem').data('targetElem').removeClass($elem.data('targetClass'))
+          $elem.data('targetElem').removeClass($elem.data('targetClass'))
         }
       }
     }
@@ -89,7 +89,7 @@
           , targetElem
 
         // merge general options with element's options
-        that.data($.extend({}, options, that.data('toggleNator')))
+        that.data($.extend({}, options, that.data('togglenator')))
         // get target object and save it in the element for later use
         if (that.data('target')) {
           that.data('targetElem', $('[data-toggleNatorTarget="'+ that.data('target') +'"]'))
