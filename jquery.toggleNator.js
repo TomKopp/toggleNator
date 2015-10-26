@@ -86,7 +86,6 @@
       $.each(this.elems, function (k, elem) {
         var that = $(elem)
           , groupId
-          , targetElem
 
         // merge general options with element's options
         that.data($.extend({}, options, that.data('togglenator')))
