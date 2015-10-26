@@ -65,3 +65,27 @@ In PHP you could write the example like this:
     <li></li>
 </ul>
 ```
+
+
+If you are trying to atach the toggleNator to dynamically added DOM nodes (throu ajax etc.) you might wonder how to accomplish that.
+Well here is how you can do that:
+
+```javascript
+var trigger = $('[data-toggleNator]')
+trigger.toggleNator()
+
+$('#addTriggerAndBox').on('click', function(e) {
+  // prevent any default eventlistener like "follow the href"
+  e.preventDefault()
+
+  // dynamically added trigger and target
+  $(this).after('<h2 data-toggleNator="{&quot;target&quot;:&quot;box-3&quot;}">Trigger 3</h2> <div class="box" data-toggleNatorTarget="box-3">&nbsp;</div>')
+
+
+  // "The Magic"
+  // Firstly remove all existing listeners, than reatach the listeners.
+  // This code will be executed after the new DOM-Nodes are added.
+  // You have to reselect all toggleNator trigger. You cannot use the variable 'trigger' here. But you should refresh the variable.
+  $('[data-toggleNator]').off('.toggleNator').toggleNator()
+})
+```
