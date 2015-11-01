@@ -67,7 +67,7 @@ In PHP you could write the example like this:
 ```
 
 
-If you are trying to atach the toggleNator to dynamically added DOM nodes (throu ajax etc.) you might wonder how to accomplish that.
+If you are trying to atach the toggleNator to dynamically added DOM nodes (through ajax etc.) you might wonder how to accomplish that.
 Well here is how you can do that:
 
 ```javascript
