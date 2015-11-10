@@ -23,12 +23,13 @@
 } (this, function toggleNatorFactory() {
 
     function toggleNator(triggers, options) {
-        this.triggers = triggers || null
-        this.options = options || null
-        this.groups = {}
+        this.triggers  = (triggers instanceof NodeList || triggers instanceof HTMLCollection|| triggers instanceof Element) ? triggers : null;
+        this.options = options || null;
+        // this.options = triggers instanceof Object ? options : null;
+        this.groups = {};
 
-        _init(this)
-        _prepareElements(this)
+        _init(this);
+        _prepareElements(this);
     }
 
     function _init(nator) {
@@ -39,38 +40,55 @@
     }
 
     function _prepareElements(nator) {
-        // list of trigger
-        var myNodeList = nator.triggers
-        if (myNodeList === null) {
-            return
+        if (nator.triggers !== null) {
+            // list of triggers
+            var myNodeList = nator.triggers;
         }
+        else {
+            // there are no elements to prepare
+            return;
+        }
+
         for (var i = 0, lgth = myNodeList.length; i < lgth; ++i) {
-            var item = myNodeList[i]
-            item.data = _data(item, 'toggleNator')
+            var item = myNodeList[i];
+            item.data = _data(item, 'toggleNator');
             // override globally adjusted defaults with element options
 
             // get target element and save it for later use
-            item.target = item.data.target
+            item.target = item.data.target;
             // add element to appropriate group
 
-            _write(item.target)
+            _write(item.target);
         }
+    }
+    
+    function _assignOptions(element, options) {
+        // loop through default options and replace them by options
     }
 
     function _data(element, name, value) {
         if (value === undefined) {
-            value = element.getAttribute('data-' + name)
-            return JSON.parse(value)
-        } else {
-            element.setAttribute('data-' + name, JSON.stringify(value))
+            // no value given -> read data attribute and return object
+            value = element.getAttribute('data-' + name);
+            if (value) {
+                return JSON.parse(value);
+            }
+            else {
+                return {};
+            }
+        }
+        else {
+            // value is given -> write to data attribute
+            element.setAttribute('data-' + name, JSON.stringify(value));
         }
     }
 
     function _write(param) {
-        console.log(param)
+        console.log(param);
     }
 
     toggleNator.prototype = {
+        // default configurations
         defaults: {
             byGroup: true
             , group: 'global'
@@ -80,7 +98,7 @@
             , targetClass: 'toggleNatorTarget'
         }
 
-        , write: function (param) { _write(param) }
+        , write: function (param) { _write(param); }
     }
 
 
