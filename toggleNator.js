@@ -23,17 +23,15 @@
 } (this, function toggleNatorFactory() {
 
     function toggleNator(triggers, options) {
-        this.triggers  = (triggers instanceof NodeList || triggers instanceof HTMLCollection|| triggers instanceof Element) ? triggers : null;
-        this.options = options || null;
-        // this.options = triggers instanceof Object ? options : null;
+        this.triggers = (triggers instanceof NodeList || triggers instanceof HTMLCollection || triggers instanceof Node) ? triggers : null;
+        this.data = _assign({}, this.defaults, (options === undefined || options === null) ? Object(options) : null );
         this.groups = {};
 
-        _init(this);
         _prepareElements(this);
     }
 
     function _init(nator) {
-        // overwrite global defaults with given options
+        // overwrite global defaults with given options ./
         // prepare elements
         // bind new eventlistener to document
         // apply once to initialize element states
@@ -42,28 +40,50 @@
     function _prepareElements(nator) {
         if (nator.triggers !== null) {
             // list of triggers
-            var myNodeList = nator.triggers;
+            var list = nator.triggers;
         }
         else {
             // there are no elements to prepare
             return;
         }
 
-        for (var i = 0, lgth = myNodeList.length; i < lgth; ++i) {
-            var item = myNodeList[i];
+        for (var i = 0, lgth = list.length; i < lgth; ++i) {
+            var item = list[i];
             item.data = _data(item, 'toggleNator');
             // override globally adjusted defaults with element options
-
+            item.data = _assign({}, nator.data, item.data);
             // get target element and save it for later use
-            item.target = item.data.target;
+            item.targets = document.querySelectorAll('[data-toggleNatorTarget="' + item.data.target + '"]');
             // add element to appropriate group
-
-            _write(item.target);
+            console.log(item);
         }
     }
-    
-    function _assignOptions(element, options) {
+
+    function _assign(element) {
         // loop through default options and replace them by options
+        // shamelessly stolen from Object.assign polyfill from MDN (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign)
+        if (element === undefined || element === null) {
+            throw new TypeError('Cannot convert first argument to object');
+        }
+
+        var to = Object(element);
+        for (var i = 1, lgth = arguments.length; i < lgth; i++) {
+            var nextSource = arguments[i];
+            if (nextSource === undefined || nextSource === null) {
+                continue;
+            }
+            nextSource = Object(nextSource);
+
+            var keysArray = Object.keys(nextSource);
+            for (var nextIndex = 0, len = keysArray.length; nextIndex < len; nextIndex++) {
+                var nextKey = keysArray[nextIndex];
+                var desc = Object.getOwnPropertyDescriptor(nextSource, nextKey);
+                if (desc !== undefined && desc.enumerable) {
+                    to[nextKey] = nextSource[nextKey];
+                }
+            }
+        }
+        return to;
     }
 
     function _data(element, name, value) {
@@ -99,7 +119,7 @@
         }
 
         , write: function (param) { _write(param); }
-    }
+    };
 
 
     return toggleNator;
