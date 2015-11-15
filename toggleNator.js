@@ -11,23 +11,25 @@
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
         define([], factory);
-    } else if (typeof module === 'object' && module.exports) {
+    }
+    else if (typeof module === 'object' && module.exports) {
         // Node. Does not work with strict CommonJS, but
         // only CommonJS-like environments that support module.exports,
         // like Node.
         module.exports = factory();
-    } else {
+    }
+    else {
         // Browser globals (root is window)
         root.toggleNator = root.toggleNator || factory();
     }
 } (this, function toggleNatorFactory() {
 
     function toggleNator(triggers, options) {
-        this.triggers = (triggers instanceof NodeList || triggers instanceof HTMLCollection || triggers instanceof Node) ? triggers : null;
-        this.data = _assign({}, this.defaults, (options === undefined || options === null) ? Object(options) : null );
+        this.triggers = _preprocessTriggers(triggers || null);
+        this.data = _assign({}, this.defaults, (options === undefined || options === null) ? Object(options) : null);
         this.groups = {};
 
-        _prepareElements(this);
+        _processElements(this);
     }
 
     function _init(nator) {
@@ -37,7 +39,7 @@
         // apply once to initialize element states
     }
 
-    function _prepareElements(nator) {
+    function _processElements(nator) {
         if (nator.triggers !== null) {
             // list of triggers
             var list = nator.triggers;
@@ -55,8 +57,27 @@
             // get target element and save it for later use
             item.targets = document.querySelectorAll('[data-toggleNatorTarget="' + item.data.target + '"]');
             // add element to appropriate group
+            if (nator.groups[item.data.group]) {
+                nator.groups[item.data.group].push(item);
+            }
+            else {
+                nator.groups[item.data.group] = [item];
+            }
+            
+            
             console.log(item);
         }
+    }
+
+    function _preprocessTriggers(triggers) {
+        if (triggers instanceof NodeList || triggers instanceof HTMLCollection || triggers instanceof Array) {
+            return triggers;
+        }
+        if (triggers instanceof Node) {
+            // make an array with one object
+            return [triggers];
+        }
+        return null;
     }
 
     function _assign(element) {
@@ -65,16 +86,16 @@
         if (element === undefined || element === null) {
             throw new TypeError('Cannot convert first argument to object');
         }
-
         var to = Object(element);
+
         for (var i = 1, lgth = arguments.length; i < lgth; i++) {
             var nextSource = arguments[i];
             if (nextSource === undefined || nextSource === null) {
                 continue;
             }
             nextSource = Object(nextSource);
-
             var keysArray = Object.keys(nextSource);
+
             for (var nextIndex = 0, len = keysArray.length; nextIndex < len; nextIndex++) {
                 var nextKey = keysArray[nextIndex];
                 var desc = Object.getOwnPropertyDescriptor(nextSource, nextKey);
@@ -107,19 +128,17 @@
         console.log(param);
     }
 
-    toggleNator.prototype = {
+    toggleNator.prototype.defaults = {
         // default configurations
-        defaults: {
-            byGroup: true
-            , group: 'global'
-            , state: 'off'
-            , triggerClass: 'toggleNator'
-            , target: null
-            , targetClass: 'toggleNatorTarget'
-        }
-
-        , write: function (param) { _write(param); }
+        byGroup: true
+        , group: 'global'
+        , state: 'off'
+        , triggerClass: 'toggleNator'
+        , target: null
+        , targetClass: 'toggleNatorTarget'
     };
+
+    toggleNator.prototype.write = function (param) { _write(param); };
 
 
     return toggleNator;
