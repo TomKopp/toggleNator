@@ -8,24 +8,38 @@
  * @version 2.x.x
  */
 ; (function (root, factory) {
+    // cobbled together from https://github.com/umdjs/umd and jQuery
     if (typeof define === 'function' && define.amd) {
-        // AMD. Register as an anonymous module.
-        define([], factory);
+        // AMD. Register as an anonymous module. - what if i just name the function??
+        // define([], factory); old
+        define([], function toggleNator() {
+            return (root.toggleNator = factory(root));
+        });
     }
     else if (typeof module === 'object' && module.exports) {
         // Node. Does not work with strict CommonJS, but
         // only CommonJS-like environments that support module.exports,
         // like Node.
-        module.exports = factory();
+        // module.exports = factory(root); old
+        root.document
+            ? factory(root, true)
+            : function (w) {
+                if (!w.document) {
+                    throw new Error("A window with a document is required");
+                }
+                return factory(w);
+            };
     }
     else {
         // Browser globals (root is window)
-        root.toggleNator = root.toggleNator || factory();
+        root.toggleNator = root.toggleNator || factory(root);
     }
-} (this, function toggleNatorFactory() {
+} (this, function toggleNatorFactory(root) {
+
+    var document = root.document;
 
     function toggleNator(triggers, options) {
-        this.triggers = _preprocessTriggers(triggers || null);
+        this.triggers = _preprocessTriggers(triggers);
         this.data = _assign({}, this.defaults, (options === undefined || options === null) ? Object(options) : null);
         this.groups = {};
 
@@ -63,9 +77,7 @@
             else {
                 nator.groups[item.data.group] = [item];
             }
-            
-            
-            console.log(item);
+            // console.log(item);
         }
     }
 
@@ -76,6 +88,9 @@
         if (triggers instanceof Node) {
             // make an array with one object
             return [triggers];
+        }
+        if (triggers instanceof String || typeof triggers === 'string') {
+            return document.querySelectorAll(triggers);
         }
         return null;
     }
