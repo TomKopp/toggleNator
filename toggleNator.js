@@ -40,7 +40,7 @@
 
     function toggleNator(triggers, options) {
         this.triggers = _preprocessTriggers(triggers);
-        this.data = _assign({}, this.defaults, (options === undefined || options === null) ? Object(options) : null);
+        this.data = _assign({}, this.defaults, (options === undefined || options === null) ? null : Object(options));
         this.groups = {};
 
         _processElements(this);
