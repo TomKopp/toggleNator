@@ -25,7 +25,7 @@
             ? factory(root, true)
             : function (w) {
                 if (!w.document) {
-                    throw new Error("A window with a document is required");
+                    throw new Error('A window with a document is required');
                 }
                 return factory(w);
             };
@@ -46,12 +46,12 @@
         _processElements(this);
     }
 
-    function _init(nator) {
+    // function _init(nator) {
         // overwrite global defaults with given options ./
         // prepare elements
         // bind new eventlistener to document
         // apply once to initialize element states
-    }
+    // }
 
     function _processElements(nator) {
         if (nator.triggers !== null) {
