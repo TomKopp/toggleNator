@@ -37,26 +37,23 @@
 } (this, function toggleNatorFactory(root) {
 
     var document = root.document;
+    var toggleNatorID = 0;
 
     function toggleNator(triggers, options) {
-        this.triggers = _preprocessTriggers(triggers);
-        this.data = _assign({}, this.defaults, (options === undefined || options === null) ? null : Object(options));
-        this.groups = {};
+        this.toggleNatorId = toggleNatorID++;
+        this.toggleNatorTriggers = _preprocessTriggers(triggers);
+        this.toggleNatorData = _assign({}, this.defaults, (options === undefined || options === null) ? null : Object(options));
+        this.toggleNatorGroups = {};
+        this.toggleNatorEvent = new Event('toggleNator-' + this.toggleNatorId, { 'bubbles': true, 'cancelable': true });
 
+        document.addEventListener('toggleNator-' + this.toggleNatorId, this, false);
         _processElements(this);
     }
 
-    // function _init(nator) {
-        // overwrite global defaults with given options ./
-        // prepare elements
-        // bind new eventlistener to document
-        // apply once to initialize element states
-    // }
-
     function _processElements(nator) {
-        if (nator.triggers !== null) {
+        if (nator.toggleNatorTriggers) {
             // list of triggers
-            var list = nator.triggers;
+            var list = nator.toggleNatorTriggers;
         }
         else {
             // there are no elements to prepare
@@ -65,19 +62,36 @@
 
         for (var i = 0, lgth = list.length; i < lgth; ++i) {
             var item = list[i];
-            item.data = _data(item, 'toggleNator');
+            if (!item.toggleNator) {
+                item.toggleNator = [];
+            }
             // override globally adjusted defaults with element options
-            item.data = _assign({}, nator.data, item.data);
-            // get target element and save it for later use
-            item.targets = document.querySelectorAll('[data-toggleNatorTarget="' + item.data.target + '"]');
+            item.toggleNator[nator.toggleNatorId] = _assign(
+                {}
+                , nator.toggleNatorData
+                , _data(item, 'toggleNator')
+            );
+            var element = _assign(
+                {}
+                , item.toggleNator[nator.toggleNatorId]
+            );
+            // get target element(s) and save it(them) for later use
+            element.targets = document.querySelectorAll('[data-toggleNatorTarget="' + element.target + '"]');
+            element.trigger = item;
             // add element to appropriate group
-            if (nator.groups[item.data.group]) {
-                nator.groups[item.data.group].push(item);
+            if (nator.toggleNatorGroups[element.group]) {
+                nator.toggleNatorGroups[element.group].push(element);
             }
             else {
-                nator.groups[item.data.group] = [item];
+                nator.toggleNatorGroups[element.group] = [element];
             }
-            // console.log(item);
+
+
+
+            // apply overwriteable event dispatcher
+            item.addEventListener('click', function() {
+                this.dispatchEvent(nator.toggleNatorEvent);
+            });
         }
     }
 
@@ -93,6 +107,11 @@
             return document.querySelectorAll(triggers);
         }
         return null;
+    }
+
+    function _handleEvent(nator, event) {
+        var natorArr = event.target.toggleNator[nator.toggleNatorId];
+        console.log(natorArr);
     }
 
     function _assign(element) {
@@ -139,10 +158,6 @@
         }
     }
 
-    function _write(param) {
-        console.log(param);
-    }
-
     toggleNator.prototype.defaults = {
         // default configurations
         byGroup: true
@@ -152,8 +167,7 @@
         , target: null
         , targetClass: 'toggleNatorTarget'
     };
-
-    toggleNator.prototype.write = function (param) { _write(param); };
+    toggleNator.prototype.handleEvent = function(event) { _handleEvent(this, event); };
 
 
     return toggleNator;
