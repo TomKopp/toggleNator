@@ -42,7 +42,7 @@
     function toggleNator(triggers, options) {
         this.toggleNatorId = toggleNatorID++;
         this.toggleNatorTriggers = _preprocessTriggers(triggers);
-        this.toggleNatorData = _assign({}, this.defaults, (options === undefined || options === null) ? null : Object(options));
+        this.toggleNatorData = _assign({}, this.defaults, (options === undefined || options === null || typeof options === 'string') ? null : Object(options));
         this.toggleNatorGroups = {};
         this.toggleNatorEvent = new Event('toggleNator-' + this.toggleNatorId, { 'bubbles': true, 'cancelable': true });
 
@@ -167,7 +167,7 @@
         , target: null
         , targetClass: 'toggleNatorTarget'
     };
-    toggleNator.prototype.handleEvent = function(event) { _handleEvent(this, event); };
+    toggleNator.prototype.handleEvent = function (event) { _handleEvent(this, event); };
 
 
     return toggleNator;
