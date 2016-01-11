@@ -117,30 +117,41 @@
 
         // BEFORE TOGGLENATOR
         if (triggerOptions.byGroup) {
-            nator.toggleNatorGroups[triggerOptions.group].forEach(_apply, event.target);
+            // nator.toggleNatorGroups[triggerOptions.group].forEach(_apply, event.target);
+            nator.toggleNatorGroups[triggerOptions.group].forEach(function (element) {
+                if (this === element.trigger) {
+                    // toggle state on event.target
+                    element.state === 'on'
+                        ? element.state = 'off'
+                        : element.state = 'on';
+                }
+                else {
+                    // not event.target? state off
+                    element.state = 'off';
+                }
+                // ON TOGGLENATOR
+                _onToggleNator(element);
+            }, event.target);
         }
         else {
             for (var i = 0, lgth = nator.toggleNatorGroups.length; i < lgth; i++) {
-                nator.toggleNatorGroups[i].forEach(_apply, event.target);
+                nator.toggleNatorGroups[i].forEach(function (element) {
+                    if (this === element.trigger) {
+                        // toggle state on event.target
+                        element.state === 'on'
+                            ? element.state = 'off'
+                            : element.state = 'on';
+                    }
+                    else {
+                        // not event.target? state off
+                        element.state = 'off';
+                    }
+                    // ON TOGGLENATOR
+                    _onToggleNator(element);
+                }, event.target);
             }
         }
         // AFTER TOGGLENATOR
-    }
-
-    function _apply(element) {
-        if (this === element.trigger) {
-            // toggle state on event.target
-            element.state === 'on'
-                ? element.state = 'off'
-                : element.state = 'on';
-        }
-        else {
-            // not event.target? state off
-            element.state = 'off';
-        }
-
-        // ON TOGGLENATOR
-        _onToggleNator(element);
     }
 
     function _onToggleNator(element) {
@@ -198,11 +209,11 @@
     function _data(element, name, value) {
         if (value === undefined) {
             // no value given -> read data attribute and return object
-            value = element.getAttribute('data-' + name);
-            if (value) {
-                return JSON.parse(value);
+            try {
+                return JSON.parse(element.getAttribute('data-' + name));
             }
-            else {
+            catch (e) {
+                console.error('A problem occured while parsing the data-attribute: ', e.message);
                 return {};
             }
         }
