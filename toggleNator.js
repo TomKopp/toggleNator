@@ -45,6 +45,29 @@
         this.toggleNatorData = _assign({}, this.defaults, (options === undefined || options === null || typeof options === 'string') ? null : options);
         this.toggleNatorGroups = {};
         this.toggleNatorEvent = new Event('toggleNator-' + this.toggleNatorId, { 'bubbles': true, 'cancelable': true });
+        this.onToggleNator = function (element) {
+            var i = 0;
+            var lgth = element.targets.length;
+
+            if (element.state === 'on') {
+                // if state is on, add classes
+                // ACTIVATE
+                _addClass(element.trigger, element.triggerClass);
+                while (i < lgth) {
+                    _addClass(element.targets[i], element.targetClass);
+                    ++i;
+                }
+            }
+            else {
+                // if state is off (not on) remove classes
+                // DEACTIVATE
+                _removeClass(element.trigger, element.triggerClass);
+                while (i < lgth) {
+                    _removeClass(element.targets[i], element.targetClass);
+                    ++i;
+                }
+            }
+        };
 
         document.addEventListener('toggleNator-' + this.toggleNatorId, this, false);
         _processElements(this);
@@ -89,7 +112,7 @@
             }
 
             // initially apply togglenator on this element
-            _onToggleNator(element);
+            nator.onToggleNator(element);
 
             // apply overwritable event dispatcher
             item.addEventListener('click', function() {
@@ -114,68 +137,30 @@
 
     function _handleEvent(nator, event) {
         var triggerOptions = event.target.toggleNator[nator.toggleNatorId];
+        var groups;
 
-        // BEFORE TOGGLENATOR
         if (triggerOptions.byGroup) {
-            // nator.toggleNatorGroups[triggerOptions.group].forEach(_apply, event.target);
-            nator.toggleNatorGroups[triggerOptions.group].forEach(function (element) {
-                if (this === element.trigger) {
-                    // toggle state on event.target
-                    element.state === 'on'
-                        ? element.state = 'off'
-                        : element.state = 'on';
-                }
-                else {
-                    // not event.target? state off
-                    element.state = 'off';
-                }
-                // ON TOGGLENATOR
-                _onToggleNator(element);
-            }, event.target);
+            groups = [].concat(nator.toggleNatorGroups[triggerOptions.group]);
         }
         else {
-            for (var i = 0, lgth = nator.toggleNatorGroups.length; i < lgth; i++) {
-                nator.toggleNatorGroups[i].forEach(function (element) {
-                    if (this === element.trigger) {
-                        // toggle state on event.target
-                        element.state === 'on'
-                            ? element.state = 'off'
-                            : element.state = 'on';
-                    }
-                    else {
-                        // not event.target? state off
-                        element.state = 'off';
-                    }
-                    // ON TOGGLENATOR
-                    _onToggleNator(element);
-                }, event.target);
-            }
+            groups = nator.toggleNatorGroups;
         }
+        // BEFORE TOGGLENATOR
+        groups.forEach(function (element) {
+            if (this === element.trigger) {
+                // toggle state on event.target
+                element.state === 'on'
+                    ? element.state = 'off'
+                    : element.state = 'on';
+            }
+            else {
+                // not event.target? state off
+                element.state = 'off';
+            }
+            // ON TOGGLENATOR
+            nator.onToggleNator(element);
+        }, event.target);
         // AFTER TOGGLENATOR
-    }
-
-    function _onToggleNator(element) {
-        var i = 0;
-        var lgth = element.targets.length;
-
-        if (element.state === 'on') {
-            // if state is on, add classes
-            // ACTIVATE
-            _addClass(element.trigger, element.triggerClass);
-            while (i < lgth) {
-                _addClass(element.targets[i], element.targetClass);
-                ++i;
-            }
-        }
-        else {
-            // if state is off (not on) remove classes
-            // DEACTIVATE
-            _removeClass(element.trigger, element.triggerClass);
-            while (i < lgth) {
-                _removeClass(element.targets[i], element.targetClass);
-                ++i;
-            }
-        }
     }
 
     function _assign(element) {
