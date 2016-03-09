@@ -7,13 +7,13 @@
  * @license MIT
  * @version 2.x.x
  */
-; (function (root, factory) {
+(function (root, factory) {
     // cobbled together from https://github.com/umdjs/umd and jQuery
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module. - what if i just name the function??
         // define([], factory); old
         define([], function toggleNator() {
-            return (root.toggleNator = factory(root));
+            return (root.toggleNator = factory(root, false));
         });
     }
     else if (typeof module === 'object' && module.exports) {
@@ -21,20 +21,20 @@
         // only CommonJS-like environments that support module.exports,
         // like Node.
         // module.exports = factory(root); old
-        root.document
+        module.exports = root.document
             ? factory(root, true)
-            : function (w) {
-                if (!w.document) {
+            : function (window) {
+                if (!window.document) {
                     throw new Error('A window with a document is required');
                 }
-                return factory(w);
+                return factory(window, false);
             };
     }
     else {
         // Browser globals (root is window)
-        root.toggleNator = root.toggleNator || factory(root);
+        root.toggleNator = root.toggleNator || factory(root, false);
     }
-} (this, function toggleNatorFactory(root) {
+} (typeof window !== 'undefined' ? window : this, function toggleNatorFactory(root, noGlobal) {
 
     var document = root.document;
     var toggleNatorID = 0;
@@ -237,6 +237,10 @@
     };
     toggleNator.prototype.handleEvent = function (event) { _handleEvent(this, event); };
 
+
+    if (!noGlobal ) {
+        window.toggleNator = toggleNator;
+    }
 
     return toggleNator;
 }));
