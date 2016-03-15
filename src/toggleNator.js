@@ -25,13 +25,13 @@
 } (typeof window !== 'undefined' ? window : this, function toggleNatorFactory(root) {
 
     var natorId = 0;
-    var defaults = { // default configurations
+    const defaults = { // default configurations
         byGroup: true
         , group: 'global'
         , state: 'off'
         , triggerClass: 'toggleNator'
         , targetClass: 'toggleNatorTarget'
-        , eventEmitter: (item, event) => _eventEmitter(item, event)
+        , eventEmitter: (item, event) => eventEmitter(item, event)
     };
 
     // function _data(element, name, value) {
@@ -49,31 +49,34 @@
     //     }
     // }
 
-    var _eventEmitter = function(item, event) {
-        item.addEventListener('click', function() { this.dispatchEvent(event); })
+    const eventEmitter = function(item, event) {
+        item.addEventListener('click', function() { this.dispatchEvent(event); });
     };
 
-    var _handleEvent = function(event) {
+    const handleEvent = function(event) {
         console.log(this, event);
     };
 
-    var _triggersRetreave = function(triggers) {
+    const triggersValidate = function(triggers) {
+        return (triggers instanceof NodeList
+            || triggers instanceof HTMLCollection
+            || triggers instanceof Array
+            || triggers instanceof Node);
+    };
+
+    const triggersRetreave = function(triggers) {
         if (triggers instanceof String || typeof triggers === 'string') {
             triggers = document.querySelectorAll(triggers);
+        }
+        if (!triggersValidate(triggers)) {
+            throw new TypeError('Cannot process triggers');
         }
         return triggers;
     };
 
-    var _triggersValidate = function(triggers) {
-        return triggers instanceof NodeList || triggers instanceof HTMLCollection || triggers instanceof Array;
-    };
-
-    var _walk = function(items, callback) {
-        if (_triggersValidate(items)) {
-            var i = items.length;
-            while (--i > -1) {
-                callback(items[i]); // should not do this, callback could change items.length
-            }
+    const walk = function(items, callback) {
+        for (var item of items) {
+            callback(item);
         }
         return items;
     };
@@ -81,15 +84,15 @@
     function toggleNator(triggers, options) {
         const _id = natorId++;
         // const _options;
-        const _triggers = _triggersRetreave(triggers);
+        const _triggers = Array.prototype.slice.call(triggersRetreave(triggers));
         const _event = new Event('toggleNator-' + _id, { 'bubbles': true, 'cancelable': true });
 
         root.document.addEventListener('toggleNator-' + _id, this, false);
-        _walk(_triggers, item => defaults.eventEmitter(item, _event));
+        walk(_triggers, item => defaults.eventEmitter(item, _event));
 
     }
 
-    toggleNator.prototype.handleEvent = _handleEvent;
+    toggleNator.prototype.handleEvent = handleEvent;
 
     return toggleNator;
 }));
