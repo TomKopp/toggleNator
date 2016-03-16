@@ -65,7 +65,7 @@
                     if (opt.hasOwnProperty(name)
                         && typeof opt[name] !== typeof defaults[name]
                     ) {
-                        throw new TypeError();
+                        throw new TypeError(`Type of '${name}' does not match. It should be: ${typeof defaults[name]}`);
                     }
                 });
         }
