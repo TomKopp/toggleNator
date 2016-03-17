@@ -32,6 +32,7 @@
         , triggerClass: 'toggleNator'
         , targetClass: 'toggleNatorTarget'
         , eventEmitter: (item, event) => eventEmitter(item, event)
+        , onEvent: (toggleNator, event) => onEvent(toggleNator, event)
     };
 
     // function _data(element, name, value) {
@@ -53,8 +54,12 @@
         item.addEventListener('click', function() { this.dispatchEvent(event); });
     };
 
+    const onEvent = function(toggleNator, event) {
+        console.log(toggleNator, event);
+    };
+
     const handleEvent = function(event) {
-        console.log(this, event);
+        this.options.onEvent(this, event);
     };
 
     const optionsValidate = function(mask, opt) {
@@ -90,11 +95,11 @@
     function toggleNator(triggers, options) {
         const _id = natorId++;
         const _event = new Event('toggleNator-' + _id, { 'bubbles': true, 'cancelable': true });
-        const _options = Object.freeze(Object.assign({}, defaults, optionsValidate(defaults, options)));
-        const _triggers = Array.prototype.slice.call(triggersRetreave(triggers));
+        this.options = Object.freeze(Object.assign({}, defaults, optionsValidate(defaults, options)));
+        this.triggers = Array.prototype.slice.call(triggersRetreave(triggers));
 
         root.document.addEventListener('toggleNator-' + _id, this, false);
-        _triggers.forEach(item => _options.eventEmitter(item, _event));
+        this.triggers.forEach(item => this.options.eventEmitter(item, _event));
     }
 
     toggleNator.prototype.handleEvent = handleEvent;
