@@ -90,7 +90,7 @@
     function toggleNator(triggers, options) {
         const _id = natorId++;
         const _event = new Event('toggleNator-' + _id, { 'bubbles': true, 'cancelable': true });
-        const _options = Object.freeze(Object.assign({}, defaults, optionsValidate(develop, options)));
+        const _options = Object.freeze(Object.assign({}, defaults, optionsValidate(defaults, options)));
         const _triggers = Array.prototype.slice.call(triggersRetreave(triggers));
 
         root.document.addEventListener('toggleNator-' + _id, this, false);
