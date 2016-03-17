@@ -57,15 +57,13 @@
         console.log(this, event);
     };
 
-    const optionsValidate = function(opt) {
-        if (typeof opt !== 'undefined') {
+    const optionsValidate = function(mask, opt) {
+        if (typeof mask !== 'undefined' && typeof opt !== 'undefined' ) {
             Object
-                .getOwnPropertyNames(defaults)
+                .getOwnPropertyNames(mask)
                 .forEach(name => {
-                    if (opt.hasOwnProperty(name)
-                        && typeof opt[name] !== typeof defaults[name]
-                    ) {
-                        throw new TypeError(`Type of '${name}' does not match. It should be: ${typeof defaults[name]}`);
+                    if (opt.hasOwnProperty(name) && typeof mask[name] !== typeof opt[name] ) {
+                        throw new TypeError(`Type of '${name}' does not match. It should be: ${typeof mask[name]}`);
                     }
                 });
         }
@@ -92,7 +90,7 @@
     function toggleNator(triggers, options) {
         const _id = natorId++;
         const _event = new Event('toggleNator-' + _id, { 'bubbles': true, 'cancelable': true });
-        const _options = Object.freeze(Object.assign({}, defaults, optionsValidate(options)));
+        const _options = Object.freeze(Object.assign({}, defaults, optionsValidate(develop, options)));
         const _triggers = Array.prototype.slice.call(triggersRetreave(triggers));
 
         root.document.addEventListener('toggleNator-' + _id, this, false);
