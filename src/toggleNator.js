@@ -32,7 +32,7 @@
         , triggerClass: 'toggleNator'
         , targetClass: 'toggleNatorTarget'
         , eventEmitter: (item, event) => eventEmitter(item, event)
-        , onEvent: (toggleNator, event) => onEvent(toggleNator, event)
+        , onEvent: (item, event) => onEvent(item, event)
     };
 
     // function _data(element, name, value) {
@@ -54,12 +54,12 @@
         item.addEventListener('click', function() { this.dispatchEvent(event); });
     };
 
-    const onEvent = function(toggleNator, event) {
-        console.log(toggleNator, event);
+    const onEvent = function(item, event) {
+        console.log(this, item, event);
     };
 
     const handleEvent = function(event) {
-        this.options.onEvent(this, event);
+        this.triggers.forEach(curVal => this.options.onEvent(curVal, event));
     };
 
     const optionsValidate = function(mask, opt) {
