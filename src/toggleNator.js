@@ -11,7 +11,7 @@ export default (function () {
         , onEvent: (item, event) => (item, event)
 	}
 
-	let elements = {}
+	let elements = []
 	let options = {}
 
 
@@ -24,7 +24,7 @@ export default (function () {
 			return options
 		}
 		, set elements(elms) {
-			elements = elms
+			elements = Array.prototype.slice.call(elms)
 		}
 		, set options(opts) {
 			options = Object.assign(

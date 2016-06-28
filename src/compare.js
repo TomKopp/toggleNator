@@ -1,23 +1,24 @@
 export default (function () {
 	return {
-		propertyTypes: function propertyTypes(mask, opt) {
+		propertyTypes: (mask, elem) => {
 			if (!mask) {
 				throw new TypeError('Mask is not provided.')
 			}
-			if (!opt) {
+			if (!elem) {
 				throw new TypeError('Options are not provided.')
 			}
 			Object
 				.getOwnPropertyNames(mask)
 				.forEach(name => {
 					if (
-						opt[name]
-						&& typeof mask[name] !== typeof opt[name]
+						elem[name]
+						&& !this.types(mask[name], elem[name])
 					) {
 						throw new TypeError(`Type of '${name}' does not match. It should be: ${typeof mask[name]}`)
 					}
 				})
-			return opt
+			return elem
 		}
+		, types: (mask, elem) => typeof mask === typeof elem
 	}
 })()
