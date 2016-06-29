@@ -1,21 +1,21 @@
 import compare from './compare.js'
 
-export default (function () {
+export let toggleNator = (function () {
 	const defaults = {
 		active: false
-        , byGroup: true
-        , group: 'global'
-        , triggerClass: 'toggleNator'
-        , targetClass: 'toggleNatorTarget'
-        , eventEmitter: (item, event) => (item, event)
-        , onEvent: (item, event) => (item, event)
+		, byGroup: true
+		, group: 'global'
+		, triggerClass: 'toggleNator'
+		, targetClass: 'toggleNatorTarget'
+		, eventEmitter: (item, event) => (item, event)
+		, onEvent: (item, event) => (item, event)
 	}
 
 	let elements = []
 	let options = {}
 
 
-	return {
+	return Object.freeze({
 		name: 'toggleNator'
 		, get elements() {
 			return elements
@@ -33,5 +33,5 @@ export default (function () {
 				, compare.propertyTypes(defaults, opts)
 			)
 		}
-	}
+	})
 })()
