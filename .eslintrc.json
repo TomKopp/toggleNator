@@ -1,46 +1,46 @@
 {
-    "env": {
-        "node": true,
-        "es6": true
-    },
-    "extends": "eslint:recommended",
-    "parserOptions": {
-        "ecmaVersion": 6,
-        "sourceType": "module"
-    },
-    "root": true,
-    "rules": {
-        "indent": ["error", "tab"],
-        "block-scoped-var": "error",
-        "complexity": ["error", 3],
-        "dot-location": ["error", "property"],
-        "curly": "error",
-        "dot-notation": "error",
-        "eqeqeq": ["error", "smart"],
-        "no-else-return": "error",
-        "no-loop-func": "error",
-        "no-lone-blocks": "error",
-        "no-magic-numbers": "error",
-        "quotes": [
-            2,
-            "single"
-        ],
-        "linebreak-style": [
-            2,
-            "unix"
-        ],
-        "semi": [
-            2,
-            "never"
-        ],
-        "no-extra-semi": 1,
-        "arrow-parens": [
-            2,
-            "as-needed"
-        ],
-        "arrow-body-style": [
-            2,
-            "as-needed"
-        ]
-    }
+	"env": {
+		"node": true,
+		"es6": true
+	},
+	"extends": "eslint:recommended",
+	"parserOptions": {
+		"ecmaVersion": 6,
+		"sourceType": "module"
+	},
+	"root": true,
+	"rules": {
+		"indent": ["error", "tab"],
+		"block-scoped-var": "error",
+		"complexity": ["error", 2],
+		"dot-location": ["error", "property"],
+		"curly": "error",
+		"dot-notation": "error",
+		"eqeqeq": ["error", "smart"],
+		"no-else-return": "error",
+		"no-loop-func": "error",
+		"no-lone-blocks": "error",
+		"no-magic-numbers": "error",
+		"quotes": [
+			2,
+			"single"
+		],
+		"linebreak-style": [
+			2,
+			"unix"
+		],
+		"semi": [
+			2,
+			"never"
+		],
+		"no-extra-semi": 1,
+		"arrow-parens": [
+			2,
+			"as-needed"
+		],
+		"arrow-body-style": [
+			2,
+			"as-needed"
+		]
+	}
 }

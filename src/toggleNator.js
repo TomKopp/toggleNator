@@ -1,18 +1,16 @@
 import compare from './compare.js'
 
-export let toggleNator = (function () {
+export default (function () {
 	const defaults = {
 		active: false
 		, byGroup: true
 		, group: 'global'
-		, triggerClass: 'toggleNator'
-		, targetClass: 'toggleNatorTarget'
 		, eventEmitter: (item, event) => (item, event)
 		, onEvent: (item, event) => (item, event)
 	}
+	const options = {}
 
 	let elements = []
-	let options = {}
 
 
 	return Object.freeze({
@@ -27,11 +25,19 @@ export let toggleNator = (function () {
 			elements = Array.prototype.slice.call(elms)
 		}
 		, set options(opts) {
-			options = Object.assign(
-				{}
-				, defaults
-				, compare.propertyTypes(defaults, opts)
-			)
+			if (typeof opts !== 'object') {
+				throw new TypeError('Options is no Object.')
+			}
+
+			Object.assign(options
+			, Object
+				.keys(defaults)
+				.filter(prop => compare.types(defaults[prop], opts[prop]))
+				.reduce((accumulator, property) => {
+					accumulator[property] = opts[property]
+					return accumulator
+				}, {})
+			) // make deep copy instead of this
 		}
 	})
 })()
