@@ -1,4 +1,4 @@
-import compare from './compare.js'
+import utils from './utils.js'
 
 export default (function () {
 	const defaults = {
@@ -11,6 +11,14 @@ export default (function () {
 	const options = {}
 
 	let elements = []
+
+	let optionsClean = opts => Object
+		.keys(defaults)
+		.filter(prop => utils.compareTypes(defaults[prop], opts[prop]))
+		.reduce((accumulator, property) => {
+			accumulator[property] = opts[property]
+			return accumulator
+		}, {})
 
 
 	return Object.freeze({
@@ -29,14 +37,9 @@ export default (function () {
 				throw new TypeError('Options is no Object.')
 			}
 
-			Object.assign(options
-			, Object
-				.keys(defaults)
-				.filter(prop => compare.types(defaults[prop], opts[prop]))
-				.reduce((accumulator, property) => {
-					accumulator[property] = opts[property]
-					return accumulator
-				}, {})
+			Object.assign(
+				options
+				, optionsClean(opts)
 			) // make deep copy instead of this
 		}
 	})
