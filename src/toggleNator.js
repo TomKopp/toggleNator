@@ -12,13 +12,6 @@ export default (function () {
 
 	let elements = []
 
-	let optionsClean = opts => Object
-		.keys(defaults)
-		.filter(prop => utils.compareTypes(defaults[prop], opts[prop]))
-		.reduce((accumulator, property) => {
-			accumulator[property] = opts[property]
-			return accumulator
-		}, {})
 
 
 	return Object.freeze({
@@ -33,13 +26,13 @@ export default (function () {
 			elements = Array.prototype.slice.call(elms)
 		}
 		, set options(opts) {
-			if (typeof opts !== 'object') {
+			if (!utils.compareTypes(defaults, opts)) {
 				throw new TypeError('Options is no Object.')
 			}
 
 			Object.assign(
 				options
-				, optionsClean(opts)
+				, utils.filterByPropertyTypes(defaults, opts)
 			) // make deep copy instead of this
 		}
 	})
