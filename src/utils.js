@@ -1,7 +1,7 @@
 export default (function () {
-	let compareTypes = (mask, elem) => typeof mask === typeof elem
+	const compareTypes = (mask, elem) => typeof mask === typeof elem
 
-	let filterByPropertyTypes = (mask, elem) => Object
+	const filterByPropertyTypes = (mask, elem) => Object
 		.keys(mask)
 		.filter(prop => compareTypes(mask[prop], elem[prop]))
 		.reduce((carry, property) => {
