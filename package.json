@@ -2,7 +2,7 @@
   "name": "togglenator",
   "version": "1.2.0",
   "description": "toggleNator is a js module that toggles states of html nodes, that can be used to toggle css classes.",
-  "main": "jquery.toggleNator.js",
+  "main": "lib/jquery.toggleNator.js",
   "dependencies": {},
   "devDependencies": {
     "babel-cli": "latest",
