@@ -14,7 +14,7 @@ export default (function () {
 
 
 
-	return Object.freeze({
+	return utils.deepFreeze({
 		name: 'toggleNator'
 		, get elements() {
 			return elements
@@ -26,7 +26,7 @@ export default (function () {
 			elements = Array.prototype.slice.call(elms)
 		}
 		, set options(opts) {
-			if (!utils.compareTypes(defaults, opts)) {
+			if (!utils.isObject(opts)) {
 				throw new TypeError('Options is no Object.')
 			}
 
